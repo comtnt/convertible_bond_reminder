@@ -40,31 +40,25 @@ def make_info(data, today):
 
 
 def make_msg(data_by_type):
-    msg = u'<p>最近可申购{}只可转债</p>'.format(len(data_by_type[u'申购']))
+    msg = u'最近可申购{}只可转债\n'.format(len(data_by_type[u'申购']))
     if data_by_type[u'申购']:
-        msg += u'<ul>{}</ul>'.format(''.join(
-            [u'<li>{} {} {}%</li>'.format(x['name'], x['time'], x['rt']) for x
+        msg += u'{}\n'.format(''.join(
+            [u'{} {} {}%\n'.format(x['name'], x['time'], x['rt']) for x
              in data_by_type[u'申购']]))
 
-    msg += u'<p>最近上市{}只可转债</p>'.format(len(data_by_type[u'上市']))
+    msg += u'最近上市{}只可转债\n'.format(len(data_by_type[u'上市']))
     if data_by_type[u'上市']:
-        msg += u'<ul>{}</ul>'.format(''.join(
-            [u'<li>{} {} {}%</li>'.format(x['name'], x['time'], x['rt']) for x
+        msg += u'{}\n'.format(''.join(
+            [u'{} {} {}%\n'.format(x['name'], x['time'], x['rt']) for x
              in data_by_type[u'上市']]))
 
     return msg
 
 
 def send_msg(token, content):
-    url = 'http://www.pushplus.plus/send'
-    res = requests.post(url, data={
-        'token': token,
-        'title': u'可转债提醒',
-        'content': content,
-        'template': 'html',
-        'topic': 'my'
-    })
-    return res.text
+    url = 'https://api.day.app/{}/可转债提醒/{}'.format(token,content)
+    res = requests.get(url)
+    print(content)
 
 
 if __name__ == '__main__':
@@ -77,7 +71,7 @@ if __name__ == '__main__':
     try:
         data = get_res()
     except:
-        send_msg(token, u'<p>可转债接口请求出错</p>')
+        send_msg(token, u'可转债接口请求出错')
         quit()
 
     try:
