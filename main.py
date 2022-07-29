@@ -56,7 +56,7 @@ def make_msg(data_by_type):
 
 
 def send_msg(token, content):
-    url = 'https://api.day.app/{}/可转债提醒/{}'.format(token,content)
+    url = u'https://api.day.app/{}/可转债提醒/{}'.format(token,content)
     res = requests.get(url)
     print(content)
 
